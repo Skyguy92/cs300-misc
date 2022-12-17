@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Quicksort algorithm holder
  */
@@ -14,9 +16,9 @@ public class QuickSort {
 
             if (!validateSortedAscending(arr1)) {
                 System.err.println("Error");
-            };
+            }
 
-//            System.out.println(Arrays.toString(arr1));
+            System.out.println(Arrays.toString(arr1));
         }
 
         System.out.println("Tested a 10 element array 1000 times, if no error message, it's good");
@@ -74,23 +76,30 @@ public class QuickSort {
      * @param <T> must be comparable
      */
     private static <T extends Comparable<T>> int partition(T[] arr, int left, int right) {
-        int i = left; // the last swapped index
-        T pivot = arr[right]; // the pivot value
+        int l = left;
+        int r = right;
 
-        // loop through the array from left to right
-        for (int j = left; j < right; j++) {
+        T pivot = arr[(right + ((right + left) / 2) + left) / 3];
 
-            // j is the current iterating index, when a conflict is found, such as
-            // its value is less than the pivot, swap it with the current swap index
-            // and increment the swap index
-            if (arr[j].compareTo(pivot) < 0) {
-                swap(arr, i, j);
-                i++;
+        while (l < r) {
+            while (arr[l].compareTo(pivot) < 0) {
+                l++;
+            }
+
+            while (arr[r].compareTo(pivot) > 0) {
+                r--;
+            }
+
+            if (arr[l].compareTo(arr[r]) > 0) {
+                swap(arr, l, r);
+            }
+
+            if (arr[l].compareTo(pivot) == 0) {
+                r--;
             }
         }
 
-        swap(arr, i, right);
-        return i;
+        return l;
     }
 
     /**
